@@ -243,6 +243,36 @@
     .fade-in {
       animation: fade-in 2s ease-out;
     }
+    .updatePrice {
+      padding-top: 10px;
+    }
+    .updatePrice label {
+      font-size: 16px;
+      font-family: "Kode Mono", monospace;
+    }
+    .updatePrice input {
+      outline: none;
+      font-size: 16px;
+      background: transparent;
+      border: none;
+      color: snow;
+      border-bottom: 2px solid snow;
+    }
+    .updatePrice button {
+      margin-top: 15px;
+      width: 120px;
+      height: 25px;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+      align-self: center;
+      background: #ffffff;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 20px;
+      display: flex;
+    }
   </style>
   <body>
     <section class="users">
@@ -296,10 +326,25 @@
               <strong>Price:</strong> <%= parfume.price %>$
               <div class="action-buttons">
                 <button onclick="deleteParfume('<%= parfume._id %>')">
-                  <% if (language === 'ru') { %>УДАЛИТЬ<% } else { %>REMOVE<% }
-                  %>
+                  <% if (language === 'ru') { %>УДАЛИТЬ<% } else { %>REMOVE<%
+                  }%>
                 </button>
               </div>
+              <form
+                action="/updateparfume/<%= parfume._id %>"
+                method="post"
+                class="updatePrice"
+              >
+                <label for="newPrice">
+                  <% if (language === 'ru') { %>НОВАЯ ЦЕНА<% } else { %>NEW
+                  PRICE<% }%>
+                </label>
+                <input type="number" id="newPrice" name="newPrice" required />
+                <button type="submit">
+                  <% if (language === 'ru') { %>ОБНОВИТЬ ЦЕНУ<% } else {
+                  %>UPDATE PRICE<% }%>
+                </button>
+              </form>
             </div>
           </li>
           <% } %>

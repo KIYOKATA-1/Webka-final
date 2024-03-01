@@ -11,7 +11,7 @@
       body {
         margin: 0;
         padding: 0;
-        background: #ffdfdf;
+        background: #a07777;
         height: 100vh;
         overflow-x: hidden;
       }
@@ -26,22 +26,22 @@
         justify-content: center;
         align-content: center;
         display: grid;
-        object-fit: cover;
         background: #0000009e;
         grid-template-columns: 1fr;
-        grid-template-rows: 500px;
+        grid-template-rows: auto;
       }
 
       header img {
         width: 100%;
         filter: brightness(40%);
-        height: 100%;
+        object-fit: cover;
+        height: 100vh;
       }
 
       .header_text {
         position: absolute;
         justify-content: center;
-        top: 5vh;
+        top: 35vh;
         left: 41vw;
         color: #f2f2f2;
         font-family: "Anta", sans-serif;
@@ -96,7 +96,6 @@
         border: 2px solid black;
         margin-left: 20px;
         margin-bottom: 20px;
-        animation: fromLeft 1.4s ease-out forwards;
       }
       .parfumes {
         position: relative;
@@ -117,16 +116,6 @@
         margin-left: 5px;
         display: flex;
         margin-top: 20px;
-      }
-      @keyframes fromLeft {
-        from {
-          transform: translateX(-10%);
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
       }
       @keyframes fromTop {
         from {
@@ -149,28 +138,64 @@
       }
       .back a {
         text-decoration: none;
-        color: black;
-        position: relative;
+        color: snow;
+        position: absolute;
         justify-content: center;
+        font-family: "Anta", sans-serif;
+        font-size: 24px;
         text-align: center;
         left: 40px;
         top: 50px;
       }
+      .hidden {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateY(20%);
+        transition: all 1.7s;
+      }
+      .hidden2 {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateY(30%);
+        transition: all 1.5s;
+      }
+      .hidden3 {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateY(20%);
+        transition: all 1.3s;
+      }
+      .show2 {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+      .show {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
+      .show3 {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+      }
     </style>
   </head>
   <header class="fade-in">
+    <img src="/img/forherBg.jpg" alt="" />
     <h2 class="header_text">
       <% if (language === 'ru') { %>ДЛЯ НЕЕ<% } else { %>FOR HER<% } %>
     </h2>
   </header>
   <body>
     <section class="parfumes">
-      <div class="parfume_list">
+      <div class="parfume_list hidden3">
         <ul>
           <% for (const parfume of parfumes) { %>
-          <li>
+          <li class="hidden2">
             <img
-              class="parfume_img"
+              class="parfume_img hidden"
               src="/uploads/<%= parfume.image %>"
               alt="<%= parfume.name %> Image"
               onerror="console.error('Error loading image:', '<%= parfume.image %>')"
@@ -191,5 +216,28 @@
     <div class="back">
       <a href="/main"><i class="fa-solid fa-chevron-left"></i>&nbsp;BACK</a>
     </div>
+
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            entry.target.classList.add("show2");
+            entry.target.classList.add("show3");
+          } else {
+            entry.target.classList.remove("show");
+            entry.target.classList.remove("show2");
+            entry.target.classList.remove("show3");
+          }
+        });
+      });
+
+      const hideElements = document.querySelectorAll(".hidden");
+      const hideElements2 = document.querySelectorAll(".hidden2");
+      const hideElements3 = document.querySelectorAll(".hidden3");
+      hideElements.forEach((el) => observer.observe(el));
+      hideElements2.forEach((el) => observer.observe(el));
+      hideElements3.forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>

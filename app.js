@@ -212,6 +212,23 @@ app.delete('/deleteparfume/:id', requireAuth, requireAdmin, async (req, res) => 
     }
 });
 
+
+app.post('/updateparfume/:id', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const { newPrice } = req.body;
+        const updatedParfume = await Parfume.findByIdAndUpdate(req.params.id, { price: newPrice }, { new: true });
+
+        if (!updatedParfume) {
+            return res.status(404).json({ error: 'Parfume not found' });
+        }
+
+        res.redirect('/admin');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error in update parfume');
+    }
+});
+
 app.get("/", function(req, res) {
     res.redirect("/regist");
 });
